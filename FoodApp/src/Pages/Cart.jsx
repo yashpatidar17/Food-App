@@ -27,6 +27,7 @@ export const Cart = () => {
             <p>Description : {item.description}</p>
             <p>Price : {item.price}</p>
             <p>Delivery Time : {item.delivery_time}</p>
+            <button>Remove from Cart</button>
           </div>
         </div>
       ))}
