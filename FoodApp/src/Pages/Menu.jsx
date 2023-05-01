@@ -1,81 +1,35 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { FoodContext } from "../main";
 
 export const Menu = () => {
-  const { foodData, cartHandler } = useContext(FoodContext);
-  const [filters, setFilters] = useState({
-    filterInput: "",
-    // category :{},
-    isVeg:false,
-    isSpicy:false,
-    sortPrice: "",
-  });
+  const {
+    searchHandler,
+    cartHandler,
+    checkboxHandler,
+    sortPriceHandler,
+    newArray,
+  } = useContext(FoodContext);
 
-  const vegCheckHandler = () => {
-    setFilters({ ...filters, isVeg: !filters.isVeg });
-  };
-
-  const spicyCheckHandler = () => {
-    setFilters({ ...filters, isSpicy: !filters.isSpicy });
-  };
-
- 
-
-  const inputfilterHandler = (event) => {
-    setFilters({ ...filters, filterInput: event.target.value });
-  };
-
-  const sortPriceHandler = (event) => {
-    console.log(event.target.value)
-    setFilters({ ...filters,sortPrice:event.target.value });
-  }
-  
-  
-
-  let filtereData = foodData.filter((item)=>
-    item.name.toLowerCase().includes(filters.filterInput.toLowerCase())
-  );
-
-   if(filters.isVeg){
-    filtereData = filtereData.filter((item)=>item.is_vegetarian)
-  }
-   
-  if(filters.isSpicy){
-    filtereData = filtereData.filter((item)=>item.is_spicy)
-  }
-  
-
-  if(filters.sortPrice === "LowtoHigh"){
-    filtereData = filtereData.sort((a,b)=>a.price-b.price)
-  }
-  else if(filters.sortPrice === "HighToLow"){
-    filtereData = filtereData.sort((a,b)=>b.price-a.price)
-  }
-
-console.log(filtereData)
   return (
     <>
       <h1>Menu</h1>
       <div className="checkbox">
-        <input
-          placeholder="search food here"
-          onChange={inputfilterHandler}
-        />
+        <input placeholder="search food here" onChange={searchHandler} />
         <label>
           <input
             type="checkbox"
-            // checked={filters.isVeg}
+            // checked={filters.is_vegetarian}
             value="is_vegetarian"
-            onChange={vegCheckHandler}
+            onChange={checkboxHandler}
           />
           veg
         </label>
         <label>
           <input
             type="checkbox"
-            // checked={filters.isSpicy}
+            // checked={filters.is_spicy}
             value="is_spicy"
-            onChange={spicyCheckHandler}
+            onChange={checkboxHandler}
           />
           Spicy
         </label>
@@ -89,11 +43,10 @@ console.log(filtereData)
           />
           sort (price) Low to High
         </label>
-        instead of checked 
         <label>
           <input
             type="radio"
-            value="HighToLow"
+            value="HightoLow"
             name="PriceRadio"
             // checked={filters.sortPrice === "HighToLow"}
             onChange={sortPriceHandler}
@@ -102,7 +55,7 @@ console.log(filtereData)
         </label>
       </div>
 
-      {filtereData.map((item) => {
+      {newArray.map((item) => {
         const { id, name, description, price, image, delivery_time } = item;
         return (
           <div className="card" key={id}>
